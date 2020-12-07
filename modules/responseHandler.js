@@ -2,8 +2,6 @@ exports.processText = text => {
     switch (text) {
         case 'Is zachary ghei':
             return 'yes';
-        default:
-            return 'wot';
     }
 };
 
@@ -17,5 +15,3 @@ exports.tooLate = () => {
         return false;
     }
 };
-
-console.log(exports.tooLate())
