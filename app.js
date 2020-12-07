@@ -5,7 +5,6 @@ const resHandler = require('./modules/responseHandler');
 const db = require('./modules/SQL');
 
 const dotenv = require('dotenv');
-const { syncBuiltinESMExports } = require('module');
 dotenv.config();
 
 const API_KEY = process.env.API_KEY;
@@ -16,16 +15,21 @@ bot.onText(/\/gm/, msg => {
     const msgID =  msg.chat.id;
 
     let options = msg.text.split(' ');
-    options.shift();
+    options.shift(); // Remove the command text
 
     if (options[0] === 'register') {
         const gmMessage = options[1] || 'gm';
-        db.addRequest(msgID, gmMessage);
-        bot.sendMessage(msgID, `<i>gm message "${gmMessage}" registered</i>`, {parse_mode: 'HTML'})
+        db.addRequest(msgID, gmMessage).then(val => {
+            if (val) {
+                bot.sendMessage(msgID, `<i>gm message "${gmMessage}" registered</i>`, {'parse_mode': 'HTML'});
+            } else {
+                bot.sendMessage(msgID, "<b>gm already registered</b>", {'parse_mode': 'HTML'})
+            }
+        });
     } else if (options[0] === 'unregister') {
         db.removeRequest(msgID);
     } else {
-        bot.sendMessage(msgID, "<b>No options provided</b>", {parse_mode: 'HTML'})
+        bot.sendMessage(msgID, "<b>No options provided</b>", {'parse_mode': 'HTML'})
     }
 });
 
@@ -34,13 +38,19 @@ bot.on('message', msg => {
     if (resHandler.tooLate()) {
         response = " <b>Bruh go sleep</b>";
     }
-    if (response) bot.sendMessage(msg.chat.id, response, {parse_mode: 'HTML'});
+    if (response) bot.sendMessage(msg.chat.id, response, {'parse_mode': 'HTML'});
 });
 
-bot.on('polling_error', err => {console.log(err)});
+bot.on('polling_error', err => {console.error(err)});
 
 cron.schedule('0 0 0 * * *', () => {
-
+    db.getRequests()
+        .then(reqs => {
+            reqs.forEach(req => {
+                bot.sendMessage(req.chat_id, req.gm_message);
+            });
+        })
+        .catch(err => { console.error(err); });
 }, {
     scheduled: true,
     timezone: "Asia/Singapore"
