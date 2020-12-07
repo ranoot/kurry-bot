@@ -1,0 +1,27 @@
+{
+  "name": "koolkurrybot",
+  "version": "1.0.0",
+  "description": "A bot for Klub",
+  "main": "app.js",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "node-cron": "^2.0.3",
+    "node-telegram-bot-api": "^0.50.0",
+    "sequelize": "^6.3.5",
+    "sqlite3": "^5.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ranoot/kurry-bot.git"
+  },
+  "author": "Ranoot",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ranoot/kurry-bot/issues"
+  },
+  "homepage": "https://github.com/ranoot/kurry-bot#readme"
+}

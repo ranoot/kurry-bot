@@ -9,9 +9,5 @@ exports.tooLate = () => {
     const sgTimeNow = new Date(Date.now() + 28800000); // add 8 hours to UTC time 
     const sgHourNow = sgTimeNow.getUTCHours();
 
-    if (sgHourNow >= 0 && sgHourNow <= 6) {
-        return true;
-    } else {
-        return false;
-    }
+    return (sgHourNow >= 0 && sgHourNow <= 6);
 };
