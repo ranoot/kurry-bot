@@ -61,3 +61,27 @@ cron.schedule('0 0 0 * * *', () => {
     scheduled: true,
     timezone: "Asia/Singapore"
 });
+
+// always on in glitch
+
+const express = require('express');
+const app = express();
+const http = require('http');
+
+app.use(express.static('public'));
+
+app.get('/', function(request, response) {
+    app.get("/", (request, response) => {
+        console.log(Date.now() + " Ping Received");
+        response.sendStatus(200);
+    });
+});
+
+const listener = app.listen(process.env.PORT, function() {
+    console.log('Your app is listening on port ' + process.env.PORT);
+    }
+);
+
+setInterval(() => {
+  http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
+}, 280000);
