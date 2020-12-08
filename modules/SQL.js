@@ -25,7 +25,7 @@ exports.addRequest = async(chat_id, gm_message) => {
         const duplicate = await Request.findAll({ //checks whether req already exists
             'where': {'chat_id': chat_id}
         });
-        if (duplicate.lenth === 0) {
+        if (duplicate.length === 0) {
             const reqInstance = await Request.create({'chat_id': chat_id, 'gm_message': gm_message});
             return reqInstance;
         } else {

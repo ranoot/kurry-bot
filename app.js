@@ -14,11 +14,10 @@ const bot = new TelegramBot(API_KEY, {polling: true});
 bot.onText(/\/gm/, msg => {
     const msgID =  msg.chat.id;
     
-    let options = msg.text.split(' ');
-    options.shift(); // Remove the command text
+    const [,option, ...textArray] = msg.text.split(' ')
 
-    if (options[0] === 'register') {
-        const gmMessage = options[1] || 'gm';
+    if (option === 'register') {
+        const gmMessage = textArray.join(' ') || 'gm';
         db.addRequest(msgID, gmMessage).then(val => {
             if (val) {
                 bot.sendMessage(msgID, `<i>gm message "${gmMessage}" registered</i>`, {'parse_mode': 'HTML'});
@@ -26,7 +25,7 @@ bot.onText(/\/gm/, msg => {
                 bot.sendMessage(msgID, "<b>gm already registered</b>", {'parse_mode': 'HTML'})
             }
         });
-    } else if (options[0] === 'unregister') {
+    } else if (option === 'unregister') {
         db.removeRequest(msgID).then(val => {
             if (val) {
                 bot.sendMessage(msgID, `<i>gm message unregistered</i>`, {'parse_mode': 'HTML'})
