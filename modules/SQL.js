@@ -42,8 +42,10 @@ exports.removeRequest = async(chat_id) => {
         await Request.destroy({
             where: {'chat_id': chat_id}
         });
+        return true;
     } catch (err) {
         console.error(err.message);
+        return false;
     }
 };
 

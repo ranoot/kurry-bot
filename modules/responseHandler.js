@@ -1,13 +1,20 @@
-exports.processText = text => {
-    switch (text) {
-        case 'Is zachary ghei':
-            return 'yes';
-    }
-};
-
-exports.tooLate = () => {
+const tooLate = () => {
     const sgTimeNow = new Date(Date.now() + 28800000); // add 8 hours to UTC time 
     const sgHourNow = sgTimeNow.getUTCHours();
 
     return (sgHourNow >= 0 && sgHourNow <= 6);
 };
+
+exports.processMsg = msg => {
+    const regex = /Is (.+) gay/;
+    if (tooLate()) {
+        return `<b>Bruh, please go sleep ${msg.from.first_name}</b>`;
+    }
+    if (msg.text.toLowerCase().includes("hello")) {
+        return `Hello ${msg.from.first_name}`;
+    }
+    if (regex.test(msg.text)) {
+        return `Yes, ${msg.text.match(regex)[1]} is ghei`;
+    }
+};
+
