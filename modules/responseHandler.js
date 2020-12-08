@@ -6,15 +6,15 @@ const tooLate = () => {
 };
 
 exports.processMsg = msg => {
-    const regex = /Is (.+) gay/;
+    const regex = /is (.+) gay/;
     if (tooLate()) {
         return `<b>Bruh, please go sleep ${msg.from.first_name}</b>`;
     }
     if (msg.text.toLowerCase().includes("hello")) {
         return `Hello ${msg.from.first_name}`;
     }
-    if (regex.test(msg.text)) {
-        return `Yes, ${msg.text.match(regex)[1]} is ghei`;
+    if (regex.test(msg.text.toLowerCase())) {
+        return `Yes, ${msg.text.toLowerCase().match(regex)[1]} is ghei`;
     }
 };
 
